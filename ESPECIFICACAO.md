@@ -37,50 +37,34 @@ E = ícone de espada   S = ícone de escudo   (C) = selo da coroa
 
 ## 3. Medidas
 
-Origem (0, 0) no canto superior esquerdo da carta. Todas as medidas em mm.
+Origem no canto superior esquerdo. A carta tem 63 x 88 mm. As posições abaixo são em mm.
 
-| Elemento | Posição (x, y) | Tamanho | Detalhes |
-|---|---|---|---|
-| Borda externa | contorno da carta | 3 de espessura | Cor do deck. Filete de 0,5 na cor #2B2118 entre a borda e o fundo. |
-| Fundo interno | 3, 3 | 57 x 82 | Pergaminho #E9D9B0. |
-| Barra do nome | 5, 5 | 53 x 8 | Fundo #F4E8C8, contorno de 0,4 na cor #5A4630, cantos retos. |
-| Nome | começa em x 7, centralizado na altura da barra | 9 pt (reduz até 6,5 pt se não couber) | Cinzel Bold, caixa alta, cor #2B2118, alinhado à esquerda. Largura máxima de 42 mm com coroa e 49 mm sem. |
-| Selo da coroa | centro em 54, 9 | círculo de 6 | Só nos monstros com 4 ou 5 ⚔️. Fundo #D4A62A, contorno #5A4630, coroa #5A4630. |
-| Janela da arte | 5, 15 | 53 x 47 | Moldura de 1 mm na cor #5A4630 e filete interno de 0,3 mm na cor #C9A86A. |
-| Área da arte | 6, 16 | 51 x 45 | 602 x 531 px a 300 dpi. A arte preenche a área inteira. |
-| Faixa de ataque | 5, 64 | 53 x 8 | Fundo #F3D0C4, contorno de 0,4 na cor #A0352A, cantos com raio de 2. |
-| Faixa de defesa | 5, 73 | 53 x 8 | Fundo #D5DEE8, contorno de 0,4 na cor #4A5F78, cantos com raio de 2. |
-| Ícones | começam em x 7, centralizados na altura da faixa | 6,5 cada, 1 de espaço entre eles | Quantidade igual ao valor, sempre alinhados à esquerda. Com 5 ícones, a fileira vai de x 7 a x 43,5. |
-| Numeral | círculo com centro em x 53,75, na altura da faixa | círculo de 6,5 | Ataque com fundo #A0352A, defesa com fundo #4A5F78. Dígito branco em Fredoka Bold 11 pt. |
-| Código | termina em x 58, base em y 84,3 | 5 pt | Ex.: "VUL 02". Fredoka Bold, cor #5A4630. Serve para organizar, não para jogar. |
+| Elemento | Posição e tamanho |
+|---|---|
+| Nome | Começa em x 6,2, centralizado em y 8,2. Tem até 42 mm de largura com coroa e 50 mm nas demais cartas. |
+| Selo da coroa | No canto direito da barra do nome, com cerca de 8 mm. Aparece nas cartas com 4 ou 5 espadas. |
+| Área da arte | Começa em x 4 e y 14,4. Tem 55 x 39 mm e cantos chanfrados de 1,8 mm. |
+| Ataque e defesa | Fileiras centralizadas em y 60,4 e 73,3. A primeira figura começa em x 6,4 e as seguintes avançam de 8 em 8 mm. |
+| Numerais | Centralizados nos círculos pintados, em x 52,8. |
+| Código | Alinhado à direita em x 58,6, com a base em y 82,7. |
 
 ## 4. Cores
 
-| Uso | Cor |
-|---|---|
-| Borda do Deck Vulcão | #8B2E1F (bordô) |
-| Borda do Deck Mar | #1F4E79 (azul marinho) |
-| Fundo interno (pergaminho) | #E9D9B0 |
-| Barra do nome | #F4E8C8 |
-| Contornos e moldura | #5A4630 |
-| Texto | #2B2118 |
-| Faixa de ataque | fundo #F3D0C4, contorno e numeral #A0352A |
-| Faixa de defesa | fundo #D5DEE8, contorno e numeral #4A5F78 |
-| Coroa | #D4A62A |
+A borda usa a `cor_borda` do deck como base. Vulcão usa terracota (`#BD492B`) e Mar usa azul (`#246598`). As variações de tinta na borda deixam a pintura aparecer nas duas cores.
+
+O interior é de pergaminho claro, com filetes retos. O ataque usa vermelho queimado e a defesa usa cinza-grafite em todos os decks. Os dígitos são claros e a coroa tem um selo dourado.
 
 ## 5. Ícones
 
-- **Espada (ataque):** espada simples na diagonal, ponta para cima e para a direita. Lâmina #C9CED6 com sulco #8E949C, guarda, cabo e pomo #A0352A, contorno #2B2B2B.
-- **Escudo (defesa):** escudo clássico de ponta para baixo, visto de frente. Corpo #8A9BB0, faixa vertical central #E9D9B0, contorno #2B2B2B.
-- **Estilo:** chapado, 2 ou 3 cores, contorno grosso, sem degradê e sem brilho. Reconhecível com 6,5 mm.
-- **Regra de ouro:** mesmo tamanho e mesmo espaçamento em todas as cartas. É isso que permite comparar pelo comprimento da fileira.
-- Os ícones são desenhados em vetor pelo script. Não usar emoji na carta impressa.
+- **Ataque:** espada diagonal com lâmina clara e punho de cobre.
+- **Defesa:** escudo cinza com faixa central dourada.
+- O fundo pintado, a espada, o escudo e a coroa ficam em `ferramentas/moldura/`. O gerador repete cada ícone conforme o valor da carta.
+- Os ícones de cada fileira têm sempre o mesmo tamanho e espaçamento para a criança comparar as quantidades e contar com o dedo.
 
 ## 6. Tipografia
 
-- **Nome:** Cinzel Bold.
-- **Numerais e código:** Fredoka Bold.
-- **Nomes curtos:** no máximo 18 caracteres.
+- **Nome:** Cinzel Bold em caixa alta, até 18 caracteres. Começa em 11 pt e pode reduzir até 6,5 pt.
+- **Numerais e código:** Cinzel Bold, em 19 pt e 6 pt.
 
 ## 7. Fichas de vida
 
@@ -169,7 +153,7 @@ brilhando. Não imitar personagens nem artes de franquias existentes.
 ### 9.3 Arquivo da arte
 
 - Formato quadrado, de preferência 1024 x 1024 ou maior, em PNG.
-- O script recorta no centro para a proporção da área da arte (51 x 45 mm), então deixe o monstro centralizado com folga em cima e embaixo.
+- O script recorta para a proporção da janela (55 x 39 mm), preservando mais do alto da imagem, então deixe o monstro centralizado com folga em cima e embaixo.
 - Salve com o nome indicado no `cartas.json`, dentro de `decks/<deck>/arte/`.
 
 ---

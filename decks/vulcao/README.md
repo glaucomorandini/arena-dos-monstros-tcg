@@ -1,6 +1,6 @@
 # Deck Vulcão
 
-Tema: fogo, rocha vulcânica e deserto. Cor da borda: `#8B2E1F`.
+Tema: fogo, rocha vulcânica e deserto. Cor da borda: `#BD492B`.
 
 10 monstros diferentes, 2 cópias de cada (20 cartas). Os dados que o script usa estão em `cartas.json`; as artes vão na pasta `arte/` com o nome da coluna Arquivo.
 

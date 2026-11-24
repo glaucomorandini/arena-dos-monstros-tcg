@@ -15,8 +15,8 @@ from functools import cache
 from io import BytesIO
 from pathlib import Path
 
-from PIL import Image
-from reportlab.lib.colors import HexColor, white
+from PIL import Image, ImageOps
+from reportlab.lib.colors import HexColor
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
@@ -26,6 +26,7 @@ from reportlab.pdfgen import canvas
 
 RAIZ = Path(__file__).resolve().parent.parent
 FONTES = RAIZ / "ferramentas" / "fontes"
+MOLDURA = RAIZ / "ferramentas" / "moldura"
 SAIDA = RAIZ / "impressao" / "arena-dos-monstros.pdf"
 ORDEM_DECKS = ["vulcao", "mar"]
 
@@ -34,20 +35,8 @@ CARTA_L, CARTA_A = 63, 88
 
 # Cores
 PERGAMINHO = HexColor("#E9D9B0")
-BARRA_NOME = HexColor("#F4E8C8")
-MARROM = HexColor("#5A4630")
-TEXTO = HexColor("#2B2118")
-CONTORNO_ICONE = HexColor("#2B2B2B")
-ATQ_FUNDO = HexColor("#F3D0C4")
-ATQ_COR = HexColor("#A0352A")
-DEF_FUNDO = HexColor("#D5DEE8")
-DEF_COR = HexColor("#4A5F78")
-DOURADO = HexColor("#D4A62A")
-LAMINA = HexColor("#C9CED6")
-SULCO_LAMINA = HexColor("#8E949C")
-ESCUDO = HexColor("#8A9BB0")
-REALCE_ARTE = HexColor("#C9A86A")
-ARTE_VAZIA = HexColor("#D8C9A0")
+MARROM = HexColor("#5A3825")
+TEXTO = HexColor("#322014")
 CORACAO = HexColor("#C0392B")
 CORTE = HexColor("#888888")
 
@@ -56,8 +45,8 @@ PAGINA_L, PAGINA_A = A4
 COLUNAS, LINHAS = 3, 3
 MARGEM_ESQ, MARGEM_TOPO = 10.5, 16.5
 
-# Arte: área interna da janela (51 x 45 mm) a 300 dpi
-ARTE_PX = (602, 531)
+# Área interna da janela chanfrada (55 x 39 mm) a 300 dpi
+ARTE_PX = (650, 461)
 
 
 def registrar_fontes():
@@ -79,31 +68,6 @@ class Carta:
     def Y(self, y):
         return PAGINA_A - (self.topo + y) * mm
 
-    def ret(self, x, y, l, a, preench=None, contorno=None, esp=0.0, raio=0):
-        c = self.c
-        if preench is not None:
-            c.setFillColor(preench)
-        if contorno is not None:
-            c.setStrokeColor(contorno)
-            c.setLineWidth(esp * mm)
-        args = (self.X(x), self.Y(y + a), l * mm, a * mm)
-        kw = dict(fill=1 if preench is not None else 0, stroke=1 if contorno is not None else 0)
-        if raio:
-            c.roundRect(*args, raio * mm, **kw)
-        else:
-            c.rect(*args, **kw)
-
-    def circulo(self, cx, cy, r, preench=None, contorno=None, esp=0.0):
-        c = self.c
-        if preench is not None:
-            c.setFillColor(preench)
-        if contorno is not None:
-            c.setStrokeColor(contorno)
-            c.setLineWidth(esp * mm)
-        c.circle(self.X(cx), self.Y(cy), r * mm,
-                 fill=1 if preench is not None else 0,
-                 stroke=1 if contorno is not None else 0)
-
 
 def caminho(c, pontos, fechar=True):
     p = c.beginPath()
@@ -113,74 +77,6 @@ def caminho(c, pontos, fechar=True):
     if fechar:
         p.close()
     return p
-
-
-def icone_espada(c, cx, cy, tam):
-    """Espada na diagonal, ponta para cima e para a direita. cx, cy e tam em pontos."""
-    s = tam * 1.15
-    c.saveState()
-    c.translate(cx, cy)
-    c.rotate(-45)
-    c.scale(s, s)
-    c.setLineWidth(0.3 * mm / s)
-    c.setStrokeColor(CONTORNO_ICONE)
-    c.setLineJoin(1)
-    c.setFillColor(LAMINA)
-    c.drawPath(caminho(c, [(-0.065, -0.12), (0.065, -0.12), (0.065, 0.34), (0, 0.48), (-0.065, 0.34)]),
-               fill=1, stroke=1)
-    c.setStrokeColor(SULCO_LAMINA)
-    c.line(0, -0.08, 0, 0.32)
-    c.setStrokeColor(CONTORNO_ICONE)
-    c.setFillColor(ATQ_COR)
-    c.rect(-0.04, -0.38, 0.08, 0.18, fill=1, stroke=1)
-    c.rect(-0.22, -0.2, 0.44, 0.08, fill=1, stroke=1)
-    c.circle(0, -0.42, 0.055, fill=1, stroke=1)
-    c.restoreState()
-
-
-def icone_escudo(c, cx, cy, tam):
-    """Escudo de ponta para baixo com faixa central."""
-    s = tam
-    c.saveState()
-    c.translate(cx, cy)
-    c.scale(s, s)
-    c.setLineWidth(0.3 * mm / s)
-    c.setLineJoin(1)
-
-    def contorno():
-        p = c.beginPath()
-        p.moveTo(-0.36, 0.42)
-        p.lineTo(0.36, 0.42)
-        p.lineTo(0.36, 0.05)
-        p.curveTo(0.36, -0.2, 0.18, -0.36, 0, -0.46)
-        p.curveTo(-0.18, -0.36, -0.36, -0.2, -0.36, 0.05)
-        p.close()
-        return p
-
-    c.setFillColor(ESCUDO)
-    c.drawPath(contorno(), fill=1, stroke=0)
-    c.saveState()
-    c.clipPath(contorno(), stroke=0, fill=0)
-    c.setFillColor(PERGAMINHO)
-    c.rect(-0.075, -0.5, 0.15, 1.0, fill=1, stroke=0)
-    c.restoreState()
-    c.setStrokeColor(CONTORNO_ICONE)
-    c.drawPath(contorno(), fill=0, stroke=1)
-    c.restoreState()
-
-
-def icone_coroa(c, cx, cy, tam):
-    s = tam
-    c.saveState()
-    c.translate(cx, cy)
-    c.scale(s, s)
-    c.setFillColor(MARROM)
-    c.drawPath(caminho(c, [(-0.3, -0.16), (0.3, -0.16), (0.34, 0.18), (0.17, 0.03),
-                           (0, 0.24), (-0.17, 0.03), (-0.34, 0.18)]), fill=1, stroke=0)
-    c.rect(-0.3, -0.26, 0.6, 0.07, fill=1, stroke=0)
-    for px, py in [(-0.34, 0.2), (0, 0.27), (0.34, 0.2)]:
-        c.circle(px, py, 0.05, fill=1, stroke=0)
-    c.restoreState()
 
 
 def icone_coracao(c, cx, cy, tam):
@@ -206,19 +102,22 @@ def icone_coracao(c, cx, cy, tam):
 
 @cache
 def preparar_arte(caminho_arte):
-    """Recorta no centro para a proporção da janela e reduz para 300 dpi."""
-    img = Image.open(caminho_arte).convert("RGB")
-    alvo = ARTE_PX[0] / ARTE_PX[1]
-    l, a = img.size
-    if l / a > alvo:
-        nova_l = int(a * alvo)
-        x = (l - nova_l) // 2
-        img = img.crop((x, 0, x + nova_l, a))
-    else:
-        nova_a = int(l / alvo)
-        y = (a - nova_a) // 2
-        img = img.crop((0, y, l, y + nova_a))
-    img = img.resize(ARTE_PX, Image.LANCZOS)
+    """Enquadra a arte na janela a 300 dpi, preservando o alto dos monstros."""
+    with Image.open(caminho_arte) as imagem:
+        arte = ImageOps.fit(imagem.convert("RGB"), ARTE_PX, method=Image.Resampling.LANCZOS,
+                            centering=(0.5, 0.08))
+    return imagem_jpeg(arte)
+
+
+@cache
+def preparar_fundo(cor_borda):
+    with Image.open(MOLDURA / "fundo.png") as pintura:
+        fundo = Image.new("RGB", pintura.size, cor_borda)
+        fundo.paste(pintura, mask=pintura.getchannel("A"))
+    return imagem_jpeg(fundo)
+
+
+def imagem_jpeg(img):
     jpeg = BytesIO()
     img.save(jpeg, format="JPEG", quality=90, subsampling=0)
     jpeg.seek(0)
@@ -233,61 +132,49 @@ def texto_ajustado(fonte, texto, tam, largura_max_mm, tam_min):
 
 def desenhar_carta(c, x0, topo, carta, deck, pasta_deck):
     k = Carta(c, x0, topo)
-    cor_deck = HexColor(deck["cor_borda"])
-    coroa = carta["ataque"] >= 4
+    c.drawImage(preparar_fundo(deck["cor_borda"]), k.X(0), k.Y(CARTA_A),
+                CARTA_L * mm, CARTA_A * mm)
 
-    # Borda e fundo
-    k.ret(0, 0, CARTA_L, CARTA_A, preench=cor_deck)
-    k.ret(3, 3, 57, 82, preench=PERGAMINHO, contorno=TEXTO, esp=0.5)
-
-    # Barra do nome
-    k.ret(5, 5, 53, 8, preench=BARRA_NOME, contorno=MARROM, esp=0.4)
     nome = carta["nome"].upper()
-    larg_max = 42 if coroa else 49
-    tam = texto_ajustado("Cinzel", nome, 9, larg_max, 6.5)
+    coroa = carta["ataque"] >= 4
+    tam = texto_ajustado("Cinzel", nome, 11, 42 if coroa else 50, 6.5)
     c.setFillColor(TEXTO)
     c.setFont("Cinzel", tam)
-    altura_maiuscula = tam * 0.7
-    c.drawString(k.X(7), k.Y(9) - altura_maiuscula / 2, nome)
-
+    c.drawString(k.X(6.2), k.Y(8.2) - tam * 0.35, nome)
     if coroa:
-        k.circulo(54, 9, 3, preench=DOURADO, contorno=MARROM, esp=0.3)
-        icone_coroa(c, k.X(54), k.Y(9), 6 * mm)
+        c.drawImage(str(MOLDURA / "coroa.png"), k.X(49.6), k.Y(12.2),
+                    8.7 * mm, 8 * mm, mask="auto")
 
-    # Janela da arte
-    k.ret(5, 15, 53, 47, preench=MARROM)
-    caminho_arte = pasta_deck / "arte" / carta["arte"]
-    if caminho_arte.exists():
-        c.drawImage(preparar_arte(caminho_arte), k.X(6), k.Y(61), 51 * mm, 45 * mm)
+    # A moldura pintada já contém o fundo da janela e os círculos dos números.
+    arquivo = pasta_deck / "arte" / carta["arte"]
+    if arquivo.exists():
+        x, y, l, a, chanfro = 4.0, 14.4, 55.0, 39.0, 1.8
+        vertices = [(x + chanfro, y), (x + l - chanfro, y), (x + l, y + chanfro),
+                    (x + l, y + a - chanfro), (x + l - chanfro, y + a),
+                    (x + chanfro, y + a), (x, y + a - chanfro), (x, y + chanfro)]
+        c.saveState()
+        c.clipPath(caminho(c, [(k.X(px), k.Y(py)) for px, py in vertices]), stroke=0)
+        c.drawImage(preparar_arte(arquivo), k.X(x), k.Y(y + a), l * mm, a * mm)
+        c.restoreState()
     else:
-        k.ret(6, 16, 51, 45, preench=ARTE_VAZIA)
-        c.setFillColor(MARROM)
+        c.setFillColor(HexColor("#FFF4D9"))
         c.setFont("Fredoka", 7)
-        c.drawCentredString(k.X(31.5), k.Y(39), "ARTE PENDENTE")
+        c.drawCentredString(k.X(31.5), k.Y(34), "ARTE PENDENTE")
         c.setFont("Fredoka", 5)
-        c.drawCentredString(k.X(31.5), k.Y(43), carta["arte"])
-    k.ret(6, 16, 51, 45, contorno=REALCE_ARTE, esp=0.3)
+        c.drawCentredString(k.X(31.5), k.Y(38), carta["arte"])
 
-    # Faixas de ataque e defesa
-    faixas = [
-        (64, carta["ataque"], ATQ_FUNDO, ATQ_COR, icone_espada),
-        (73, carta["defesa"], DEF_FUNDO, DEF_COR, icone_escudo),
-    ]
-    for y, valor, fundo, cor, icone in faixas:
-        k.ret(5, y, 53, 8, preench=fundo, contorno=cor, esp=0.4, raio=2)
-        cy = y + 4
+    for valor, icone, centro_y in [(carta["ataque"], "espada", 60.4),
+                                   (carta["defesa"], "escudo", 73.3)]:
         for i in range(valor):
-            cx = 7 + i * 7.5 + 3.25
-            icone(c, k.X(cx), k.Y(cy), 6.5 * mm)
-        k.circulo(53.75, cy, 3.25, preench=cor)
-        c.setFillColor(white)
-        c.setFont("Fredoka", 11)
-        c.drawCentredString(k.X(53.75), k.Y(cy) - 11 * 0.36, str(valor))
+            c.drawImage(str(MOLDURA / f"{icone}.png"), k.X(6.4 + 8.0 * i),
+                        k.Y(centro_y + 4.6), 8.4 * mm, 9.2 * mm, mask="auto")
+        c.setFillColor(HexColor("#FFF4D9"))
+        c.setFont("Cinzel", 19)
+        c.drawCentredString(k.X(52.8), k.Y(centro_y) - 19 * 0.35, str(valor))
 
-    # Código
-    c.setFillColor(MARROM)
-    c.setFont("Fredoka", 5)
-    c.drawRightString(k.X(58), k.Y(84.3), carta["codigo"])
+    c.setFillColor(TEXTO)
+    c.setFont("Cinzel", 6)
+    c.drawRightString(k.X(58.6), k.Y(82.7), carta["codigo"])
 
 
 def marcas_de_corte(c):
