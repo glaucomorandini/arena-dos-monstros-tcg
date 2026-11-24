@@ -1,0 +1,108 @@
+{
+  "deck": "Vulcão",
+  "sigla": "VUL",
+  "cor_borda": "#8B2E1F",
+  "tema": "fogo, rocha vulcânica e deserto",
+  "cartas": [
+    {
+      "codigo": "VUL 01",
+      "nome": "Lagarto Faísca",
+      "ataque": 5,
+      "defesa": 1,
+      "copias": 2,
+      "arte": "VUL-01-lagarto-faisca.png",
+      "assunto": "salamandra laranja, magra e veloz, saltando, com uma chama na ponta da cauda",
+      "fundo": "céu de entardecer alaranjado"
+    },
+    {
+      "codigo": "VUL 02",
+      "nome": "Dragão Brasa",
+      "ataque": 4,
+      "defesa": 2,
+      "copias": 2,
+      "arte": "VUL-02-dragao-brasa.png",
+      "assunto": "dragão jovem vermelho com asas abertas e peito estufado, soltando fumaça pelas narinas, em pose de desafio",
+      "fundo": "montanhas vulcânicas escuras com céu alaranjado"
+    },
+    {
+      "codigo": "VUL 03",
+      "nome": "Javali Magma",
+      "ataque": 4,
+      "defesa": 2,
+      "copias": 2,
+      "arte": "VUL-03-javali-magma.png",
+      "assunto": "javali robusto de presas curtas, couro escuro com rachaduras de lava brilhante, avançando em carga",
+      "fundo": "rochas escuras"
+    },
+    {
+      "codigo": "VUL 04",
+      "nome": "Lobo Fogaréu",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "VUL-04-lobo-fogareu.png",
+      "assunto": "lobo cinza com juba de chamas amarelas, uivando em cima de uma pedra",
+      "fundo": "céu laranja"
+    },
+    {
+      "codigo": "VUL 05",
+      "nome": "Besouro Cobre",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "VUL-05-besouro-cobre.png",
+      "assunto": "besouro grande com carapaça de cobre polido e um chifre, em pose de avanço",
+      "fundo": "dunas de areia"
+    },
+    {
+      "codigo": "VUL 06",
+      "nome": "Macaco Fuligem",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "VUL-06-macaco-fuligem.png",
+      "assunto": "macaco forte de pelo cinza escuro, com brasas nas mãos, em pose de luta",
+      "fundo": "cinzas flutuando no ar"
+    },
+    {
+      "codigo": "VUL 07",
+      "nome": "Fênix Filhote",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "VUL-07-fenix-filhote.png",
+      "assunto": "ave de fogo jovem, penas vermelhas e douradas, asas abertas",
+      "fundo": "chamas suaves"
+    },
+    {
+      "codigo": "VUL 08",
+      "nome": "Tatu Rocha",
+      "ataque": 2,
+      "defesa": 4,
+      "copias": 2,
+      "arte": "VUL-08-tatu-rocha.png",
+      "assunto": "tatu com placas de pedra vulcânica, meio enrolado, olhar firme",
+      "fundo": "deserto rochoso"
+    },
+    {
+      "codigo": "VUL 09",
+      "nome": "Caranguejo Basalto",
+      "ataque": 2,
+      "defesa": 4,
+      "copias": 2,
+      "arte": "VUL-09-caranguejo-basalto.png",
+      "assunto": "caranguejo com carapaça de basalto preto e pinças erguidas",
+      "fundo": "poças de lava"
+    },
+    {
+      "codigo": "VUL 10",
+      "nome": "Golem Cratera",
+      "ataque": 1,
+      "defesa": 5,
+      "copias": 2,
+      "arte": "VUL-10-golem-cratera.png",
+      "assunto": "golem de pedra largo e calmo, braços cruzados, fissuras laranja no corpo",
+      "fundo": "cratera de vulcão"
+    }
+  ]
+}

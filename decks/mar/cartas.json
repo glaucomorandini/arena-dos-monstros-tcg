@@ -1,0 +1,108 @@
+{
+  "deck": "Mar",
+  "sigla": "MAR",
+  "cor_borda": "#1F4E79",
+  "tema": "oceano, gelo e neve",
+  "cartas": [
+    {
+      "codigo": "MAR 01",
+      "nome": "Peixe Relâmpago",
+      "ataque": 5,
+      "defesa": 1,
+      "copias": 2,
+      "arte": "MAR-01-peixe-relampago.png",
+      "assunto": "peixe-espada prateado saltando da água, com pequenos raios em volta",
+      "fundo": "céu de tempestade"
+    },
+    {
+      "codigo": "MAR 02",
+      "nome": "Serpente Maré",
+      "ataque": 4,
+      "defesa": 2,
+      "copias": 2,
+      "arte": "MAR-02-serpente-mare.png",
+      "assunto": "serpente marinha verde-azulada saindo de uma onda, com barbatanas em leque na cabeça",
+      "fundo": "mar agitado"
+    },
+    {
+      "codigo": "MAR 03",
+      "nome": "Urso Nevasca",
+      "ataque": 4,
+      "defesa": 2,
+      "copias": 2,
+      "arte": "MAR-03-urso-nevasca.png",
+      "assunto": "urso polar forte, de pé, garras à mostra, rugindo",
+      "fundo": "neve caindo"
+    },
+    {
+      "codigo": "MAR 04",
+      "nome": "Polvo Tinteiro",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "MAR-04-polvo-tinteiro.png",
+      "assunto": "polvo roxo de olhos grandes e expressivos, tentáculos erguidos",
+      "fundo": "fundo do mar com rochas"
+    },
+    {
+      "codigo": "MAR 05",
+      "nome": "Pinguim Lanceiro",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "MAR-05-pinguim-lanceiro.png",
+      "assunto": "pinguim grande com lança de gelo e capacete de concha",
+      "fundo": "geleira"
+    },
+    {
+      "codigo": "MAR 06",
+      "nome": "Morsa Martelo",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "MAR-06-morsa-martelo.png",
+      "assunto": "morsa enorme com presas, batendo a cauda no gelo",
+      "fundo": "banquisa de gelo"
+    },
+    {
+      "codigo": "MAR 07",
+      "nome": "Coruja Neve",
+      "ataque": 3,
+      "defesa": 3,
+      "copias": 2,
+      "arte": "MAR-07-coruja-neve.png",
+      "assunto": "coruja branca de asas abertas, mergulhando",
+      "fundo": "céu noturno com aurora"
+    },
+    {
+      "codigo": "MAR 08",
+      "nome": "Tartaruga Coral",
+      "ataque": 2,
+      "defesa": 4,
+      "copias": 2,
+      "arte": "MAR-08-tartaruga-coral.png",
+      "assunto": "tartaruga marinha com o casco coberto de corais",
+      "fundo": "recife"
+    },
+    {
+      "codigo": "MAR 09",
+      "nome": "Baiacu Espinho",
+      "ataque": 2,
+      "defesa": 4,
+      "copias": 2,
+      "arte": "MAR-09-baiacu-espinho.png",
+      "assunto": "baiacu inflado, cheio de espinhos, com cara de bravo",
+      "fundo": "água azul clara"
+    },
+    {
+      "codigo": "MAR 10",
+      "nome": "Golem Geleira",
+      "ataque": 1,
+      "defesa": 5,
+      "copias": 2,
+      "arte": "MAR-10-golem-geleira.png",
+      "assunto": "golem de gelo azul translúcido, grande e calmo",
+      "fundo": "montanha nevada"
+    }
+  ]
+}
