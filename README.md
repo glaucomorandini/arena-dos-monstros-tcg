@@ -2,6 +2,8 @@
 
 Jogo de cartas de monstros para imprimir em casa e jogar com crianças pequenas, a partir de uns 4 anos. Não precisa ler: cada monstro mostra ataque e defesa em ícones para contar, e as vidas são fichas físicas. A ideia é ensinar os conceitos básicos de um TCG (monte, mão, campo, descarte, vida, atacar, deitar a carta) sem efeitos, magias ou armadilhas.
 
+**Este projeto é feito com inteligência artificial (IA).** O jogo nasceu da ideia de um pai de jogar cartas com o filho de 4 anos. As ilustrações e a moldura foram geradas com IA. Ela também ajudou a desenvolver as regras e o código que monta o PDF para impressão.
+
 ![Exemplo de carta](impressao/exemplo-carta.png)
 
 ## Conteúdo do repositório
@@ -54,6 +56,8 @@ Jogo de cartas de monstros para imprimir em casa e jogar com crianças pequenas,
 
 ## Regras (Nível 1)
 
+Você ganha assim que o outro jogador perde a última ficha de vida.
+
 ### Preparação
 
 1. Cada jogador pega um deck e embaralha.
@@ -68,31 +72,31 @@ O turno tem sempre a mesma ordem:
 1. **Levantar:** coloque em pé todos os seus monstros que estiverem deitados.
 2. **Comprar:** compre 1 carta do monte.
 3. **Baixar:** você pode colocar 1 monstro da mão em um espaço vazio do seu campo, em pé. Se o campo estiver cheio (3 monstros), não dá para baixar.
-4. **Atacar:** cada monstro em pé pode atacar uma vez. Depois de atacar, ele deita.
+4. **Atacar:** escolha um dos seus monstros em pé, deite a carta e resolva o ataque. Depois você pode atacar com outro monstro em pé ou passar a vez. Você também pode passar sem atacar.
 5. **Passar a vez.**
 
 Quem começa o jogo não ataca no primeiro turno.
 
 ### Combate
 
-Quem ataca escolhe o alvo.
+**Se o oponente tem monstros no campo**, quem ataca escolhe um deles como alvo. Pode escolher até um monstro deitado, que defende com todos os seus escudos. Conte as ⚔️ do atacante e os 🛡️ do alvo.
 
-**Se o oponente tem monstro no campo**, é obrigatório atacar um monstro:
-- Conte as ⚔️ do seu monstro e os 🛡️ do monstro escolhido.
-- Se as ⚔️ forem **iguais ou maiores**, o monstro do oponente vai para o descarte.
-- Se forem **menores**, nada acontece.
+| Contagem | O que acontece |
+|---|---|
+| Mais ⚔️ que 🛡️ | O monstro atacado vai para o descarte. |
+| Mesma quantidade | Os dois monstros vão para o descarte, cada um na pilha do seu dono. |
+| Menos ⚔️ que 🛡️ | Os dois ficam no campo. |
 
-**Se o campo do oponente está vazio**, o ataque é direto: o oponente perde 1 ficha de vida.
+O atacante que fica no campo continua deitado. O monstro que defendeu e ficou no campo mantém a posição em que estava.
 
-Observações:
-- O defensor não escolhe nada nem bloqueia. Quem decide é sempre quem ataca.
-- Um monstro deitado pode ser atacado normalmente e defende com os mesmos 🛡️.
-- Monstro atacado não deita. Só deita quem atacou.
+**Se o campo do oponente está vazio**, o ataque é direto. O oponente perde **1 ficha de vida**, qualquer que seja a quantidade de espadas do atacante.
+
+Por exemplo, se o Lagarto Faísca (5 ⚔️) atacar o Golem Geleira (5 🛡️), os dois vão para o descarte. Se o Golem era o último monstro do oponente, outro monstro seu que ainda esteja em pé já pode atacar direto nesse turno.
 
 ### Fim de jogo
 
-- Quem ficar sem fichas de vida perde.
-- Se alguém precisar comprar e o monte estiver vazio, o jogo acaba na hora. Vence quem tiver mais fichas de vida. Se der empate, vence quem tiver mais monstros no campo. Se empatar de novo, joga outra.
+- Assim que um jogador perde a última ficha de vida, o outro vence.
+- Se alguém precisar comprar e o monte estiver vazio, a partida termina. Contem as fichas de vida. Quem tiver mais vence. Se os dois tiverem a mesma quantidade, a partida termina empatada.
 
 ---
 
@@ -124,6 +128,10 @@ Só acrescente quando a criança já estiver fazendo as fases do turno sozinha.
 | Ataque direto | Atacar o líder |
 | Fichas de vida | Cartas de vida |
 | Coroa e sacrifício | Custo pago com DON!! |
+
+### Ideia para uma fase futura
+
+O bloqueio opcional fica para um teste futuro. A ideia é permitir que quem defende deite um monstro em pé para proteger uma vida. Nos níveis 1 a 3, quem ataca continua escolhendo o alvo pelas regras de combate acima.
 
 ---
 
@@ -184,3 +192,29 @@ python3 ferramentas/gerar_pdf.py
 O script enquadra a arte na janela chanfrada, confere se ataque + defesa = 6 e se cada deck tem 20 cartas, e lista as artes que ainda faltam. Cartas sem arte saem com o aviso "ARTE PENDENTE".
 
 Fontes usadas: [Cinzel](https://fonts.google.com/specimen/Cinzel) e [Fredoka](https://fonts.google.com/specimen/Fredoka), ambas sob a SIL Open Font License (licenças em `ferramentas/fontes/`).
+
+## Como contribuir
+
+Jogou uma partida e alguma regra deixou dúvida? Conte quais cartas estavam na mesa, o que aconteceu e como vocês resolveram. Sugestões de monstros e relatos de problemas de impressão também são bem-vindos. Se o problema for com uma carta, inclua o código que aparece no rodapé, como `VUL 02`. [Abrir uma issue no GitHub](https://github.com/glaucomorandini/arena-dos-monstros-tcg/issues/new)
+
+### Como enviar um pull request (PR)
+
+1. Faça um [fork do repositório](https://github.com/glaucomorandini/arena-dos-monstros-tcg/fork) para criar uma cópia na sua conta do GitHub.
+2. Clone o seu fork e crie uma branch para a mudança. Troque `SEU-USUARIO` pelo seu nome no GitHub.
+
+   ```sh
+   git clone https://github.com/SEU-USUARIO/arena-dos-monstros-tcg.git
+   cd arena-dos-monstros-tcg
+   git switch -c minha-contribuicao
+   ```
+
+3. Faça a alteração. Para regras, edite este README. Para mudar uma carta, consulte a [especificação](ESPECIFICACAO.md) e o `cartas.json` do deck. Se a mudança afetar a impressão, gere o PDF seguindo as instruções acima, confira a carta na página e inclua o PDF atualizado no PR.
+4. Confira os arquivos com `git status`, adicione os que fazem parte da mudança com `git add` e envie a branch. Para uma correção no README, por exemplo:
+
+   ```sh
+   git add README.md
+   git commit -m "Esclarece a regra de combate"
+   git push -u origin minha-contribuicao
+   ```
+
+5. No GitHub, abra um pull request da branch `minha-contribuicao` do seu fork para a `main` de `glaucomorandini/arena-dos-monstros-tcg`. Conte o que mudou e por quê. Um exemplo de jogada ajuda a revisar uma regra, e uma imagem da carta ajuda a revisar uma mudança visual. [Abrir um pull request](https://github.com/glaucomorandini/arena-dos-monstros-tcg/compare)
