@@ -134,6 +134,8 @@ Gere **só a arte** no gerador de imagem. Moldura, nome e ícones são montados 
 - Eles geram em proporções fixas, diferentes de 63 x 88 mm.
 - Com o script, todas as cartas ficam idênticas em layout.
 
+Se o gerador devolver a carta inteira (1061 x 1482 px ou a mesma proporção), rode `python3 ferramentas/extrair_arte.py carta.png "VUL 02"` com o código da carta para recortar a janela e salvar a arte no deck.
+
 Para manter o mesmo estilo em todas:
 1. Gere todas na mesma conversa.
 2. Gere a primeira, aprove e diga: "use exatamente este estilo de pintura, paleta e acabamento para as próximas".

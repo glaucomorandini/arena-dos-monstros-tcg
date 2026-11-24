@@ -1,8 +1,7 @@
 """Gera o PDF de impressão da Arena dos Monstros.
 
 Uso (na raiz do repositório):
-    pip install reportlab pillow
-    python3 ferramentas/gerar_pdf.py
+    uv run --no-project --with reportlab --with pillow python3 ferramentas/gerar_pdf.py
 
 Lê decks/*/cartas.json e as artes em decks/*/arte/.
 Cartas sem arte saem com a janela da arte em branco e o aviso "ARTE PENDENTE".
@@ -10,7 +9,10 @@ Saída: impressao/arena-dos-monstros.pdf
 """
 
 import json
+import re
 import sys
+from functools import cache
+from io import BytesIO
 from pathlib import Path
 
 from PIL import Image
@@ -202,6 +204,7 @@ def icone_coracao(c, cx, cy, tam):
     c.restoreState()
 
 
+@cache
 def preparar_arte(caminho_arte):
     """Recorta no centro para a proporção da janela e reduz para 300 dpi."""
     img = Image.open(caminho_arte).convert("RGB")
@@ -216,7 +219,10 @@ def preparar_arte(caminho_arte):
         y = (a - nova_a) // 2
         img = img.crop((0, y, l, y + nova_a))
     img = img.resize(ARTE_PX, Image.LANCZOS)
-    return ImageReader(img)
+    jpeg = BytesIO()
+    img.save(jpeg, format="JPEG", quality=90, subsampling=0)
+    jpeg.seek(0)
+    return ImageReader(jpeg)
 
 
 def texto_ajustado(fonte, texto, tam, largura_max_mm, tam_min):
@@ -330,11 +336,25 @@ def pagina_fichas(c, decks):
 def carregar_decks():
     decks = []
     problemas = []
+    codigos = set()
     for nome in ORDEM_DECKS:
         pasta = RAIZ / "decks" / nome
         deck = json.loads((pasta / "cartas.json").read_text(encoding="utf-8"))
         total = 0
+        sigla = deck["sigla"]
+        padrao = re.compile(rf"{re.escape(sigla)} (?:0[1-9]|[1-9][0-9])")
         for carta in deck["cartas"]:
+            codigo = carta["codigo"]
+            if codigo in codigos:
+                problemas.append(f"{codigo}: código repetido")
+            codigos.add(codigo)
+            if not padrao.fullmatch(codigo):
+                problemas.append(f"{codigo}: use {sigla} seguido de espaço e número de 01 a 99")
+            if len(carta["nome"]) > 18:
+                problemas.append(f"{codigo}: nome com mais de 18 caracteres")
+            prefixo = codigo.replace(" ", "-") + "-"
+            if not carta["arte"].startswith(prefixo):
+                problemas.append(f"{codigo}: o nome do arquivo de arte deve começar com {prefixo}")
             a, d = carta["ataque"], carta["defesa"]
             if not (1 <= a <= 5 and 1 <= d <= 5):
                 problemas.append(f"{carta['codigo']}: ataque e defesa precisam estar entre 1 e 5")
@@ -384,6 +404,18 @@ def main():
         print(f"{len(pendentes)} artes pendentes:")
         for p in pendentes:
             print("  " + p)
+
+    sobrando = []
+    for pasta_arte in (RAIZ / "decks").glob("*/arte"):
+        manifesto = pasta_arte.parent / "cartas.json"
+        cartas = json.loads(manifesto.read_text(encoding="utf-8"))["cartas"] if manifesto.exists() else []
+        esperados = {pasta_arte / carta["arte"] for carta in cartas}
+        sobrando.extend(p for p in pasta_arte.rglob("*")
+                        if p.is_file() and p.name != ".gitkeep" and p not in esperados)
+    if sobrando:
+        print("Arquivos sobrando nas pastas de arte:")
+        for p in sorted(sobrando):
+            print(f"  {p.relative_to(RAIZ)}")
 
 
 if __name__ == "__main__":

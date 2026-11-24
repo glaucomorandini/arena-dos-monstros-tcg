@@ -162,12 +162,22 @@ As listas de monstros estão em [`decks/vulcao`](decks/vulcao) e [`decks/mar`](d
 
 ## Como adicionar as artes e gerar o PDF
 
-1. Gere as artes seguindo o [`ESPECIFICACAO.md`](ESPECIFICACAO.md). Imagem quadrada (1024 x 1024 serve).
-2. Salve cada arte na pasta `arte/` do deck, com o nome indicado na lista do deck (ex.: `decks/vulcao/arte/VUL-02-dragao-brasa.png`).
-3. Gere o PDF:
+Gere as artes seguindo a [especificação](ESPECIFICACAO.md). Se receber só a ilustração, uma imagem quadrada de 1024 x 1024 serve. Salve na pasta `arte/` do deck com o nome do `cartas.json`, como `decks/vulcao/arte/VUL-02-dragao-brasa.png`.
 
+Se o gerador devolver a carta inteira (1061 x 1482 px ou a mesma proporção), use o código da carta para recortar a janela e salvar a arte na pasta certa. Com o ambiente virtual abaixo ativado, rode `python3 ferramentas/extrair_arte.py carta.png "VUL 02"`. Com uv, rode `uv run --no-project --with pillow python3 ferramentas/extrair_arte.py carta.png "VUL 02"`. Para substituir uma arte existente, acrescente `--forcar`.
+
+Para gerar o PDF com **uv**, rode na raiz do repositório:
+
+```sh
+uv run --no-project --with reportlab --with pillow python3 ferramentas/gerar_pdf.py
 ```
-pip install reportlab pillow
+
+Se preferir usar **ambiente virtual e pip**, rode:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
 python3 ferramentas/gerar_pdf.py
 ```
 
