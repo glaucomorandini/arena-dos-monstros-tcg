@@ -41,16 +41,7 @@ Jogo de cartas de monstros para imprimir em casa e jogar com crianças pequenas,
 
 ## Mesa
 
-```
-                (oponente)
- [DESCARTE] [MONTE]   [CAMPO 3] [CAMPO 2] [CAMPO 1]   [VIDAS]
-
-
-
-
- [VIDAS]   [CAMPO 1] [CAMPO 2] [CAMPO 3]   [MONTE] [DESCARTE]
-                  (você)
-```
+Cada jogador organiza o seu lado da mesa com as cinco fichas de vida em uma coluna à esquerda e os três espaços de monstro em uma fileira no alto. Embaixo, o espaço da esquerda fica livre, o descarte fica no meio e o monte de compra à direita.
 
 ---
 
@@ -159,6 +150,8 @@ As listas de monstros estão em [`decks/vulcao`](decks/vulcao) e [`decks/mar`](d
 ---
 
 ## Impressão e montagem
+
+Se quiser usar os playmats, imprima uma folha A4 deitada por jogador, em **100% (tamanho real)**. [Playmat Vulcão (PDF)](impressao/playmat-vulcao.pdf) · [Playmat Mar (PDF)](impressao/playmat-mar.pdf)
 
 - Imprima `impressao/arena-dos-monstros.pdf` em A4, em **100% (tamanho real)**. Desligue "ajustar à página".
 - Antes de imprimir tudo, imprima uma folha e compare uma carta com uma carta de Magic ou One Piece. As duas têm 63 x 88 mm.
