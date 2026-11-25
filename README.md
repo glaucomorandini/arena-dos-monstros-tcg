@@ -197,6 +197,30 @@ Fontes usadas: [Cinzel](https://fonts.google.com/specimen/Cinzel) e [Fredoka](ht
 
 Jogou uma partida e alguma regra deixou dúvida? Conte quais cartas estavam na mesa, o que aconteceu e como vocês resolveram. Sugestões de monstros e relatos de problemas de impressão também são bem-vindos. Se o problema for com uma carta, inclua o código que aparece no rodapé, como `VUL 02`. [Abrir uma issue no GitHub](https://github.com/glaucomorandini/arena-dos-monstros-tcg/issues/new)
 
+### Como propor uma carta nova
+
+1. **Escolha o deck e o perfil do monstro.** As cartas atuais usam apenas ataque e defesa, com valores inteiros de 1 a 5 que somam exatamente 6. A coroa é automática para ataque 4 ou 5. Um monstro com 1 de ataque e 5 de defesa, por exemplo, fica sem coroa. No Nível 3, baixar um monstro com coroa custa o sacrifício de um monstro seu em campo.
+2. **Encaixe a carta nas 20 do deck.** Vulcão e Mar já têm 10 monstros diferentes, com 2 cópias de cada. Para incluir um novo no PDF atual, indique no PR qual sai e confira a distribuição dos cinco perfis. A troca mais simples é entre monstros com o mesmo ataque e defesa. [Ver a composição dos decks](#composição-dos-decks)
+3. **Cadastre o monstro em `decks/<deck>/cartas.json`.** Use um nome de até 18 caracteres e um código único entre os decks, formado pela `sigla`, um espaço e dois dígitos de `01` a `99`. No nome do PNG, troque o espaço por hífen e acrescente outro hífen depois do número. Preencha `assunto` com a descrição do monstro e `fundo` com o cenário. Atualize também a tabela e a descrição da arte no README do deck.
+
+   Por exemplo, este monstro poderia ocupar uma das vagas de atacante 4/2 do Vulcão. A entrada vai na lista `cartas`. O gerador calcula a coroa a partir de `ataque`.
+
+   ```json
+   {
+     "codigo": "VUL 11",
+     "nome": "Raposa de Cinza",
+     "ataque": 4,
+     "defesa": 2,
+     "copias": 2,
+     "arte": "VUL-11-raposa-de-cinza.png",
+     "assunto": "raposa ruiva saltando entre pedras, com a ponta da cauda em brasa",
+     "fundo": "encosta de rocha vulcânica ao amanhecer"
+   }
+   ```
+
+4. **Prepare a ilustração.** Salve o PNG em `decks/<deck>/arte/`. Use pintura de fantasia em guache, acrílica ou óleo sobre papel, com pinceladas visíveis, fundo simples e um monstro que uma criança de 4 anos ache valente sem se assustar. Entregue só a ilustração, sem texto ou símbolos de jogo. Um PNG quadrado de 1024 × 1024 px ou maior dá espaço para o recorte. [Ver direção de arte e prompt](ESPECIFICACAO.md#8-direção-de-arte)
+5. **Confira a carta pronta.** A carta impressa mede **63 × 88 mm** em retrato (744 × 1039 px a 300 dpi). A janela da ilustração mede **55 × 39 mm**. Gere o PDF e confira se o rosto ficou dentro da janela, se as espadas e os escudos batem com os números e se a coroa aparece nas cartas certas. O gerador verifica os limites de ataque e defesa, a soma, o total de 20 cartas, os códigos, o tamanho do nome e o prefixo do arquivo de arte. As duas cópias por monstro e a distribuição dos perfis precisam ser conferidas na revisão. [Como adicionar as artes e gerar o PDF](#como-adicionar-as-artes-e-gerar-o-pdf)
+
 ### Como enviar um pull request (PR)
 
 1. Faça um [fork do repositório](https://github.com/glaucomorandini/arena-dos-monstros-tcg/fork) para criar uma cópia na sua conta do GitHub.
@@ -208,7 +232,7 @@ Jogou uma partida e alguma regra deixou dúvida? Conte quais cartas estavam na m
    git switch -c minha-contribuicao
    ```
 
-3. Faça a alteração. Para regras, edite este README. Para mudar uma carta, consulte a [especificação](ESPECIFICACAO.md) e o `cartas.json` do deck. Se a mudança afetar a impressão, gere o PDF seguindo as instruções acima, confira a carta na página e inclua o PDF atualizado no PR.
+3. Faça a alteração. Para regras, edite este README. Para incluir ou mudar um monstro, siga o [guia de cartas novas](#como-propor-uma-carta-nova). Se a mudança afetar a impressão, gere o PDF, confira a carta na página e inclua o PDF atualizado no PR.
 4. Confira os arquivos com `git status`, adicione os que fazem parte da mudança com `git add` e envie a branch. Para uma correção no README, por exemplo:
 
    ```sh
